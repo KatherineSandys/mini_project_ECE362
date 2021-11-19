@@ -11,7 +11,7 @@
 ### Splitting project description into describing the physical hardware, and then what it will be doing.
 
 ### Hardware Description:
-ILI9341 driven 320x240 3.5" TFT Display controller via SPI and DMA.
+ILI9341 driven 320x240 3.5" TFT Display controller via SPI.
 I2C button matrix (Adafruit Product ID 1616, Trellis 4x4 Keypad) with internal LEDs. LEDs are controlled independently of whether buttons are pushed or not. Button state can be read via I2C, and LED state written via I2C.
 Touchscreen on top of TFT: Resistive touchscreen overlay, read via 2 ADC channels giving XY coordinates of touch. calibrated via mapping recorded touch points to position user was told to press on the LCD screen (this is the standard way to calibrate these). Some GPIO used to control additional control signals such as D/C line.
 (Tentative, will use if time allows for game menu, otherwise will use button matrix)
@@ -36,7 +36,7 @@ If you do not press the correct buttons in the correct order you do not achieve 
 ## What are the criteria for a successful project?
 
 ### Hardware requirements:
-full control over contents of display, refresh rate of 10HZ or higher
+full control over contents of display
 touchscreen properly calibrated, touch points properly map to intended location of press on the LCD.
 no visible delay between pressing of keypad and any requisite lighting of keys.
 audible audio, with no unpleasant crackles or pops caused by software delay.
