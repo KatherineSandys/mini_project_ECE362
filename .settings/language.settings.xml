@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project>
 	<configuration id="fr.ac6.managedbuild.config.gnu.cross.exe.debug.565558632" name="Debug">
@@ -25,6 +24,8 @@
 	</configuration>
 </project>
 =======
+=======
+>>>>>>> b09064a8080c22978d256283c92917c693900b1f
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project>
 	<configuration id="fr.ac6.managedbuild.config.gnu.cross.exe.debug.565558632" name="Debug">
@@ -50,4 +51,3 @@
 		</extension>
 	</configuration>
 </project>
->>>>>>> initial game logic
