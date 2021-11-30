@@ -242,6 +242,7 @@ int main(void)
 
     drawimg_4bit(pj_map);
 
+<<<<<<< HEAD
     int x, y;
     x = 0;
     y = 0;
@@ -264,4 +265,8 @@ int main(void)
         //nano_wait(1000000);
 
     }
+=======
+    // 2.5 Expander setup
+    //init_tim7();
+>>>>>>> fix main.c
 }
