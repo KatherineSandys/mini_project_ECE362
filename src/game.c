@@ -10,17 +10,28 @@ node * add_node() {
     return n;
 }
 
+void nano_wait(unsigned int n) {
+    asm(    "        mov r0,%0\n"
+            "repeat: sub r0,#83\n"
+            "        bgt repeat\n" : : "r"(n) : "r0", "cc");
+}
+
 void display_sequence() {
     node * l = head;
     while(l->next != NULL) {
-        printf(l->id);
+        setLED(l->id);
+        nano_wait(2000000000);
+        clrLED(l->id);
         l = l->next;
     }
     l->next = add_node();
-    printf(l);
+    setLED(l->id);
+    nano_wait(2000000000);
+    clrLED(l->id);
     l = l->next;
-    printf(l);
-}
+    setLED(l->id);
+    nano_wait(2000000000);
+    clrLED(l->id);}
 
 void start_game() {
     if (!(RCC->APB1ENR & RCC_APB1ENR_TIM2EN)) {
@@ -45,6 +56,7 @@ void start_game() {
 
     head = add_node();
     head->next = add_node();
+    display_sequence();
 }
 
 bool read_sequence() {
