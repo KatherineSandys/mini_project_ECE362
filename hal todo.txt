@@ -23,3 +23,19 @@ touchscreen get x
 touchscreen get y
 
 https://github.com/adafruit/Adafruit_Trellis_Library/blob/master/Adafruit_Trellis.cpp
+
+
+LCD:
+PB3
+PB5
+PB14
+PB8
+
+I2C / Keypad:
+PB6
+PB7
+
+Audio:
+PA4
+
+Leave 2 ADC pins as well
