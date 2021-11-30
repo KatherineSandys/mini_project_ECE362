@@ -32,8 +32,7 @@ void init_i2c(void) {
 
 	I2C1->TIMINGR = 0;
 	I2C1->TIMINGR &= ~I2C_TIMINGR_PRESC;
-	I2C1->TIMINGR |= 0 << 28;
-	I2C1->TIMINGR |= 3 << 20;
+	I2C1->TIMINGR |= 15 << 28;
 	I2C1->TIMINGR |= 1 << 16;
 	I2C1->TIMINGR |= 3 << 8;
 	I2C1->TIMINGR |= 9 << 0;
@@ -157,7 +156,7 @@ uint16_t displaybuffer[8];
 
 #define _BV(bit) (1 << (bit))
 
-uint8_t keys[16], lastkeys[16];
+uint8_t keys[6], lastkeys[6];
 
 // x,y as 0-3
 void setLED_xy(uint8_t x, uint8_t y) {
