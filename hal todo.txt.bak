@@ -1,0 +1,18 @@
+LCD init
+LCD draw functions
+LCD image drawing functions
+LCD text drawing functions
+
+I2C init
+(I2C interrupt driven)
+I2C button array get
+I2C button specific get
+I2C button array LED set
+I2C button specific LED set
+
+Audio init
+(audio is interrupt driven)
+give pointer to start and end of wav data in ROM
+audio pause
+audio play
+
