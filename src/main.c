@@ -1,7 +1,6 @@
 #include "stm32f0xx.h"
 #include <string.h> // for memset() declaration
 #include <math.h>   // for MA_PI
-#include "keypad.h"
 
 int score = 0;
 
