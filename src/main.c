@@ -272,13 +272,6 @@ int main(void)
 		i2c_senddata(0x70, data, 17);*/
     }
 
-
-<<<<<<< HEAD
-=======
-
-
-
->>>>>>> b09064a8080c22978d256283c92917c693900b1f
     // 2.5 Expander setup
     //init_tim7();
 }
