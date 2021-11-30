@@ -4,8 +4,8 @@ EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 1
-Title "STM32F091 Dev Board"
-Date "2020-06-22"
+Title "Group 28"
+Date "2021-11-30"
 Rev "1"
 Comp ""
 Comment1 ""
@@ -253,81 +253,18 @@ F 3 "https://www.infineon.com/dgdl/Infineon-BAT60ASERIES-DS-v01_01-en.pdf?fileId
 $EndComp
 Wire Wire Line
 	2650 3250 2850 3250
-$Comp
-L MCU_ST_STM32F0:STM32F091RCTx U2
-U 1 1 5EE02F8A
-P 6200 3100
-F 0 "U2" H 5450 4200 50  0000 C CNN
-F 1 "STM32F091RCTx" H 6050 4200 50  0000 C CNN
-F 2 "Package_QFP:LQFP-64_10x10mm_P0.5mm" H 5600 1400 50  0001 R CNN
-F 3 "http://www.st.com/st-web-ui/static/active/en/resource/technical/document/datasheet/DM00115237.pdf" H 6200 3100 50  0001 C CNN
-	1    6200 3100
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	6800 1500 7250 1500
-Wire Wire Line
-	6800 1600 7250 1600
-Wire Wire Line
-	6800 1700 7250 1700
-Wire Wire Line
-	6800 1800 7250 1800
 Wire Wire Line
 	6800 1900 7250 1900
-Wire Wire Line
-	6800 2000 7250 2000
-Wire Wire Line
-	6800 2100 7250 2100
-Wire Wire Line
-	6800 2200 7250 2200
-Wire Wire Line
-	6800 2300 7250 2300
-Wire Wire Line
-	6800 2400 7250 2400
-Wire Wire Line
-	6800 2500 7250 2500
-Wire Wire Line
-	6800 2600 7250 2600
-Wire Wire Line
-	6800 2700 7250 2700
 Wire Wire Line
 	6800 2800 7250 2800
 Wire Wire Line
 	6800 2900 7250 2900
 Wire Wire Line
-	6800 3000 7250 3000
-Wire Wire Line
-	6800 3200 7250 3200
-Wire Wire Line
-	6800 3300 7250 3300
-Wire Wire Line
-	6800 3400 7250 3400
-Wire Wire Line
-	6800 3500 7250 3500
-Wire Wire Line
-	6800 3600 7250 3600
-Wire Wire Line
 	6800 3700 7250 3700
-Wire Wire Line
-	6800 3800 7250 3800
 Wire Wire Line
 	6800 3900 7250 3900
 Wire Wire Line
-	6800 4000 7250 4000
-Wire Wire Line
-	6800 4100 7250 4100
-Wire Wire Line
-	6800 4200 7250 4200
-Wire Wire Line
-	6800 4300 7250 4300
-Wire Wire Line
-	6800 4400 7250 4400
-Wire Wire Line
-	6800 4500 7250 4500
-Wire Wire Line
 	6800 4600 7250 4600
-Wire Wire Line
-	6800 4700 7250 4700
 Wire Wire Line
 	5500 2600 5050 2600
 Wire Wire Line
@@ -335,135 +272,17 @@ Wire Wire Line
 Wire Wire Line
 	5500 3000 5050 3000
 Wire Wire Line
-	5500 3200 5050 3200
-Wire Wire Line
-	5500 3300 5050 3300
-Wire Wire Line
-	5500 3400 5050 3400
-Wire Wire Line
-	5500 3500 5050 3500
-Wire Wire Line
-	5500 3600 5050 3600
-Wire Wire Line
-	5500 3700 5050 3700
-Wire Wire Line
-	5500 3800 5050 3800
-Wire Wire Line
-	5500 3900 5050 3900
-Wire Wire Line
-	5500 4000 5050 4000
-Wire Wire Line
-	5500 4100 5050 4100
-Wire Wire Line
-	5500 4200 5050 4200
-Wire Wire Line
-	5500 4300 5050 4300
-Wire Wire Line
-	5500 4400 5050 4400
-Wire Wire Line
-	5500 4500 5050 4500
-Wire Wire Line
-	5500 4600 5050 4600
-Wire Wire Line
-	5500 4700 5050 4700
-Wire Wire Line
 	5500 1500 5050 1500
-Text Label 7050 1500 0    50   ~ 0
-PA0
-Text Label 7050 1600 0    50   ~ 0
-PA1
-Text Label 7050 1700 0    50   ~ 0
-PA2
-Text Label 7050 1800 0    50   ~ 0
-PA3
 Text Label 7050 1900 0    50   ~ 0
 PA4
-Text Label 7050 2000 0    50   ~ 0
-PA5
-Text Label 7050 2100 0    50   ~ 0
-PA6
-Text Label 7050 2200 0    50   ~ 0
-PA7
-Text Label 7050 2300 0    50   ~ 0
-PA8
-Text Label 7050 2400 0    50   ~ 0
-PA9
-Text Label 7050 2500 0    50   ~ 0
-PA10
-Text Label 7050 2600 0    50   ~ 0
-PA11
-Text Label 7050 2700 0    50   ~ 0
-PA12
 Text Label 7050 2800 0    50   ~ 0
 PA13
 Text Label 7050 2900 0    50   ~ 0
 PA14
-Text Label 7050 3000 0    50   ~ 0
-PA15
-Text Label 7050 3200 0    50   ~ 0
-PB0
-Text Label 7050 3300 0    50   ~ 0
-PB1
-Text Label 7050 3400 0    50   ~ 0
-PB2
-Text Label 7050 3500 0    50   ~ 0
-PB3
-Text Label 7050 3600 0    50   ~ 0
-PB4
-Text Label 7050 3700 0    50   ~ 0
-PB5
-Text Label 7050 3800 0    50   ~ 0
-PB6
 Text Label 7050 3900 0    50   ~ 0
 PB7
-Text Label 7050 4000 0    50   ~ 0
-PB8
-Text Label 7050 4100 0    50   ~ 0
-PB9
-Text Label 7050 4200 0    50   ~ 0
-PB10
-Text Label 7050 4300 0    50   ~ 0
-PB11
-Text Label 7050 4400 0    50   ~ 0
-PB12
-Text Label 7050 4500 0    50   ~ 0
-PB13
 Text Label 7050 4600 0    50   ~ 0
 PB14
-Text Label 7050 4700 0    50   ~ 0
-PB15
-Text Label 5150 3200 0    50   ~ 0
-PC0
-Text Label 5150 3300 0    50   ~ 0
-PC1
-Text Label 5150 3400 0    50   ~ 0
-PC2
-Text Label 5150 3500 0    50   ~ 0
-PC3
-Text Label 5150 3600 0    50   ~ 0
-PC4
-Text Label 5150 3700 0    50   ~ 0
-PC5
-Text Label 5150 3800 0    50   ~ 0
-PC6
-Text Label 5150 3900 0    50   ~ 0
-PC7
-Text Label 5150 4000 0    50   ~ 0
-PC8
-Text Label 5150 4100 0    50   ~ 0
-PC9
-Text Label 5150 4200 0    50   ~ 0
-PC10
-Text Label 5150 4300 0    50   ~ 0
-PC11
-Text Label 5150 4400 0    50   ~ 0
-PC12
-Text Label 5150 4500 0    50   ~ 0
-PC13
-Text Label 5150 4600 0    50   ~ 0
-PC14
-Text Label 5150 4700 0    50   ~ 0
-PC15
 Text Label 5150 2600 0    50   ~ 0
 PF0
 Text Label 5150 2700 0    50   ~ 0
@@ -497,17 +316,7 @@ Wire Wire Line
 	6200 1150 6400 1150
 Wire Wire Line
 	6300 1300 6300 1000
-Wire Wire Line
-	5900 4900 6000 4900
-Wire Wire Line
-	6000 4900 6100 4900
-Connection ~ 6000 4900
-Wire Wire Line
-	6100 4900 6200 4900
 Connection ~ 6100 4900
-Wire Wire Line
-	6200 4900 6300 4900
-Connection ~ 6200 4900
 $Comp
 L power:GND #PWR0114
 U 1 1 5EF55F72
@@ -1129,4 +938,35 @@ Wire Notes Line
 	11100 600  11100 6450
 Wire Notes Line
 	9250 600  9250 6450
+Connection ~ 6200 4900
+Wire Wire Line
+	6200 4900 6300 4900
+Wire Wire Line
+	6100 4900 6200 4900
+Connection ~ 6000 4900
+Wire Wire Line
+	6000 4900 6100 4900
+Wire Wire Line
+	5900 4900 6000 4900
+$Comp
+L MCU_ST_STM32F0:STM32F091RCTx U2
+U 1 1 5EE02F8A
+P 6200 3100
+F 0 "U2" H 5450 4200 50  0000 C CNN
+F 1 "STM32F091RCTx" H 6050 4200 50  0000 C CNN
+F 2 "Package_QFP:LQFP-64_10x10mm_P0.5mm" H 5600 1400 50  0001 R CNN
+F 3 "http://www.st.com/st-web-ui/static/active/en/resource/technical/document/datasheet/DM00115237.pdf" H 6200 3100 50  0001 C CNN
+	1    6200 3100
+	1    0    0    -1  
+$EndComp
+Text Label 7050 3700 0    50   ~ 0
+PB5
+Text Label 7050 3500 0    50   ~ 0
+PB3
+Wire Wire Line
+	6800 3500 7250 3500
+Text Label 7050 3800 0    50   ~ 0
+PB6
+Wire Wire Line
+	6800 3800 7250 3800
 $EndSCHEMATC
