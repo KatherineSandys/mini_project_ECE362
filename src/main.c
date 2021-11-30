@@ -2,6 +2,8 @@
 #include <string.h> // for memset() declaration
 #include <math.h>   // for MA_PI
 
+int score = 0;
+
 void nano_wait(unsigned int);
 //const char font[];
 
@@ -225,6 +227,7 @@ void clrLED(uint8_t x) {
 	  displaybuffer[x >> 4] &= ~_BV(x & 0x0F);
 	}
 
+
 int main(void)
 {
     // LED array SPI
@@ -280,6 +283,10 @@ int main(void)
 		}
 		i2c_senddata(0x70, data, 17);
     }
+
+
+
+
 
     // 2.5 Expander setup
     //init_tim7();
