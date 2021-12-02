@@ -1310,19 +1310,6 @@ F 3 "~" H 1500 2000 50  0001 C CNN
 	1    1350 2050
 	1    0    0    -1  
 $EndComp
-$Comp
-L Diode:BAT60A D1
-U 1 1 5EDEB2B3
-P 2350 1850
-F 0 "D1" H 2350 1633 50  0000 C CNN
-F 1 "BAT60JFILM" H 2350 1724 50  0000 C CNN
-F 2 "Diode_SMD:D_SOD-323" H 2350 1675 50  0001 C CNN
-F 3 "https://www.infineon.com/dgdl/Infineon-BAT60ASERIES-DS-v01_01-en.pdf?fileId=db3a304313d846880113def70c9304a9" H 2350 1850 50  0001 C CNN
-	1    2350 1850
-	-1   0    0    1   
-$EndComp
-Wire Wire Line
-	2600 1850 2500 1850
 NoConn ~ 1650 2050
 NoConn ~ 1650 2150
 NoConn ~ 1650 2250
@@ -1372,7 +1359,7 @@ $EndComp
 Wire Wire Line
 	8100 1350 7550 1350
 Wire Wire Line
-	8100 1550 7550 1550
+	8100 1550 7700 1550
 Text Label 7550 1550 0    50   ~ 0
 SD_SPI_MISO
 Text Label 7550 1350 0    50   ~ 0
@@ -1554,8 +1541,6 @@ Wire Wire Line
 	4550 5900 4550 6000
 Wire Wire Line
 	5050 5900 5050 6000
-Wire Wire Line
-	1650 1850 2200 1850
 $Comp
 L power:PWR_FLAG #FLG0101
 U 1 1 62019E02
@@ -1579,4 +1564,35 @@ F 3 "http://www.st.com/st-web-ui/static/active/en/resource/technical/document/da
 	1    1650 3250
 	1    0    0    -1  
 $EndComp
+Wire Wire Line
+	1650 1850 2600 1850
+$Comp
+L Device:R_US R6
+U 1 1 61C2579F
+P 7700 1850
+F 0 "R6" H 7768 1896 50  0000 L CNN
+F 1 "10K" H 7768 1805 50  0000 L CNN
+F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" V 7740 1840 50  0001 C CNN
+F 3 "" H 7700 1850 50  0001 C CNN
+	1    7700 1850
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3V0 #PWR01
+U 1 1 61C272C2
+P 7500 2000
+F 0 "#PWR01" H 7500 1850 50  0001 C CNN
+F 1 "+3V0" H 7515 2173 50  0000 C CNN
+F 2 "" H 7500 2000 50  0001 C CNN
+F 3 "" H 7500 2000 50  0001 C CNN
+	1    7500 2000
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7500 2000 7700 2000
+Wire Wire Line
+	7700 1700 7700 1550
+Connection ~ 7700 1550
+Wire Wire Line
+	7700 1550 7550 1550
 $EndSCHEMATC
