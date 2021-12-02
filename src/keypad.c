@@ -197,7 +197,10 @@ void sendLEDs()
 void readKeys()
 {
 	//read keys
-	memcpy(lastkeys, keys, sizeof(keys));
+	for (int i = 0; i < sizeof(keys); i++)
+	{
+		lastkeys[i] = keys[i];
+	}
 
 	uint8_t data = 0x40;
 	i2c_senddata(0x70, &data, 1);
@@ -208,36 +211,143 @@ void readKeys()
 uint8_t isKeyPressed(uint8_t k) {
   if (k > 15) return 0;
   k = buttonLUT[k];
-  return (keys[k>>4] & _BV(k & 0x0F));
+  uint8_t ret = (keys[k>>4] & _BV(k & 0x0F));
+  if (ret != 0)
+	  return 1;
+  return 0;
 }
 uint8_t wasKeyPressed(uint8_t k) {
   if (k > 15) return 0;
   k = buttonLUT[k];
-  return (lastkeys[k>>4] & _BV(k & 0x0F));
+  uint8_t ret = (lastkeys[k>>4] & _BV(k & 0x0F));
+  if (ret != 0)
+  	  return 1;
+  return 0;
 }
 
 uint8_t justPressed(uint8_t k) {
-  return (isKeyPressed(k) & !wasKeyPressed(k));
+  return (isKeyPressed(k) && (!wasKeyPressed(k)));
 }
 uint8_t justReleased(uint8_t k) {
-  return (!isKeyPressed(k) & wasKeyPressed(k));
+  return ((!isKeyPressed(k)) && wasKeyPressed(k));
+}
+
+//remember last 8 key presses
+int8_t last_key_presses[8];
+
+//return index of last unprocessed key press. these are stored sequentially
+// returns -1 if no keypress
+int8_t get_most_recent_keypress()
+{
+	//grab key at front
+	int8_t ret_key = last_key_presses[0];
+
+	//shift everyone
+	for (int i = 0; i < sizeof(last_key_presses) - 1; i++)
+	{
+		last_key_presses[i] = last_key_presses[i + 1];
+	}
+
+	//fill with -1
+	last_key_presses[sizeof(last_key_presses)-1] = -1;
+
+	//return
+	return ret_key;
+}
+
+void add_press_to_buffer(uint8_t key)
+{
+	//find an unused index and add the key
+	for (int i = 0; i < sizeof(last_key_presses); i++)
+	{
+		if (last_key_presses[i] == -1)
+		{
+			last_key_presses[i] = key;
+			return;
+		}
+		else if (i == sizeof(last_key_presses) - 1)
+		{
+			get_most_recent_keypress();
+			last_key_presses[i] = key;
+			return;
+		}
+	}
+}
+
+//init buffer to -1 (no press)
+void init_buffer()
+{
+	for (int i = 0; i < sizeof(last_key_presses); i++)
+	{
+		last_key_presses[i] = -1;
+	}
+}
+
+//if a key is pressed, add the press to the buffer
+void update_keypress_buffer()
+{
+	for (int i = 0; i < 16; i++)
+	{
+		if (justPressed(i) != 0)
+			add_press_to_buffer(i);
+	}
+}
+
+int toggle = 0;
+void updateKeypad()
+{
+	init_i2c();
+	//Initialization:
+	uint8_t data[17] = { 0x21, 0x00 };
+	i2c_senddata(HT16K33_ADDR, data, 1);
+	data[0] = HT16K33_BLINK_CMD | HT16K33_BLINK_DISPLAYON | (HT16K33_BLINK_OFF << 1);
+	i2c_senddata(HT16K33_ADDR, data, 1);
+	data[0] = HT16K33_CMD_BRIGHTNESS | 15;
+	i2c_senddata(HT16K33_ADDR, data, 1);
+	data[0] = 0xA1;
+	i2c_senddata(HT16K33_ADDR, data, 1);
+
+	nano_wait(1000000);
+
+	readKeys();
+
+	sendLEDs();
+
+	update_keypress_buffer();
+
+	RCC->AHBENR |= RCC_AHBENR_GPIOCEN;
+	GPIOC->MODER &= ~0x0000F000;
+	GPIOC->MODER |=  0x00005000;
+	if (toggle == 0)
+	{
+		toggle = 1;
+		GPIOC->BSRR  |=  0x00C00000;
+	}
+	else
+	{
+		toggle = 0;
+		GPIOC->BSRR  |=  0x000000C0;
+	}
+}
+
+void init_tim6() {
+    RCC->APB1ENR |= RCC_APB1ENR_TIM6EN;
+    TIM6->PSC = 480 - 1;
+    TIM6->ARR = 3000 - 1;
+    TIM6->DIER |= TIM_DIER_UIE;
+    TIM6->CR1 |= TIM_CR1_CEN;
+    NVIC->ISER[0] |= 1 << TIM6_DAC_IRQn;
+}
+
+void TIM6_DAC_IRQHandler(void) {
+    TIM6->SR &= ~TIM_SR_UIF;
+
+    updateKeypad();
 }
 
 void initKeypad()
 {
-	init_i2c();
+	init_buffer();
+	init_tim6();
 
-	//Initialization:
-
-	uint8_t data[17] = { 0x21, 0x00 };
-	i2c_senddata(HT16K33_ADDR, data, 1);
-
-	data[0] = HT16K33_BLINK_CMD | HT16K33_BLINK_DISPLAYON | (HT16K33_BLINK_OFF << 1);
-	i2c_senddata(HT16K33_ADDR, data, 1);
-
-	data[0] = HT16K33_CMD_BRIGHTNESS | 15;
-	i2c_senddata(HT16K33_ADDR, data, 1);
-
-	data[0] = 0xA1;
-	i2c_senddata(HT16K33_ADDR, data, 1);
 }
