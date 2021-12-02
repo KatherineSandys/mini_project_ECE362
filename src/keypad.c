@@ -233,11 +233,11 @@ uint8_t justReleased(uint8_t k) {
 }
 
 //remember last 8 key presses
-int8_t last_key_presses[8];
+int8_t last_key_presses[16];
 
 //return index of last unprocessed key press. these are stored sequentially
 // returns -1 if no keypress
-int8_t get_most_recent_keypress()
+int8_t get_keypress()
 {
 	//grab key at front
 	int8_t ret_key = last_key_presses[0];
@@ -289,7 +289,10 @@ void update_keypress_buffer()
 	for (int i = 0; i < 16; i++)
 	{
 		if (justPressed(i) != 0)
+		{
 			add_press_to_buffer(i);
+			EXTI->SWIER |= EXTI_SWIER_SWIER0;
+		}
 	}
 }
 
@@ -307,7 +310,7 @@ void updateKeypad()
 	data[0] = 0xA1;
 	i2c_senddata(HT16K33_ADDR, data, 1);
 
-	nano_wait(1000000);
+	//nano_wait(1000000);
 
 	readKeys();
 
