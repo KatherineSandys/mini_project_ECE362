@@ -32,7 +32,8 @@ uint8_t isKeyPressed(uint8_t k);
 uint8_t wasKeyPressed(uint8_t k);
 uint8_t justPressed(uint8_t k);
 uint8_t justReleased(uint8_t k);
-
+int8_t get_most_recent_keypress();
+void updateKeypad();
 void initKeypad();
 
 #endif
