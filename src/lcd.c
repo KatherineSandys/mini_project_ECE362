@@ -370,7 +370,7 @@ void init_spi1_slow()
 	SPI1->CR1 |=  SPI_CR1_SPE;
 }
 
-void sdcard_io_high_speed()
+void spi1_high_speed()
 {
 	SPI1->CR1 &= ~SPI_CR1_SPE;
 	SPI1->CR1 &= ~SPI_CR1_BR;
@@ -383,7 +383,7 @@ void init_lcd_spi()
 	GPIOB->MODER |=  0x10410000;
 
 	init_spi1_slow();
-	sdcard_io_high_speed();
+	spi1_high_speed();
 }
 
 void initLCD() {
