@@ -7,8 +7,6 @@
 #include "images/pj.h"
 #include "images/colorpallete.h"
 
-int score = 0;
-
 int main(void)
 {
     nano_wait(1000000);
