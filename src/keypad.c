@@ -267,7 +267,7 @@ void add_press_to_buffer(uint8_t key)
 		}
 		else if (i == sizeof(last_key_presses) - 1)
 		{
-			get_most_recent_keypress();
+			get_keypress();
 			last_key_presses[i] = key;
 			return;
 		}
