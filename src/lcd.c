@@ -344,12 +344,49 @@ void LCD_Init(void (*reset)(int), void (*select)(int), void (*reg_select)(int))
     lcddev.select(0);
 }
 
-__attribute((weak)) void init_lcd_spi(void)
+void init_spi1_slow()
 {
-    printf("init_lcd_spi() not defined.");
+	RCC->AHBENR |= RCC_AHBENR_GPIOBEN;
+	RCC->APB2ENR |= RCC_APB2ENR_SPI1EN;
+
+	//set GPIOB MODER and AFR for PB3->SCK, PB4->MISO, PB5->MOSI
+	GPIOB->AFR[0] &= ~0x00FFF000;
+	GPIOB->MODER  &= ~0x00000FC0;
+	GPIOB->MODER  |=  0x00000A80;
+
+	SPI1->CR1 &= ~SPI_CR1_SPE;
+
+	SPI1->CR1 &= ~SPI_CR1_BR;
+	SPI1->CR1 |=  SPI_CR1_BR_0;
+	SPI1->CR1 |=  SPI_CR1_BR_2;
+
+	SPI1->CR1 |=  SPI_CR1_MSTR;
+	SPI1->CR1 |=  SPI_CR1_SSM;
+	SPI1->CR1 |=  SPI_CR1_SSI;
+
+	SPI1->CR2 &= ~SPI_CR2_DS;
+	SPI1->CR2 |=  SPI_CR2_DS_0 | SPI_CR2_DS_1 | SPI_CR2_DS_2;
+
+	SPI1->CR1 |=  SPI_CR1_SPE;
 }
 
-void LCD_Setup() {
+void sdcard_io_high_speed()
+{
+	SPI1->CR1 &= ~SPI_CR1_SPE;
+	SPI1->CR1 &= ~SPI_CR1_BR;
+	SPI1->CR1 |=  SPI_CR1_SPE;
+}
+
+void init_lcd_spi()
+{
+	GPIOB->MODER &= ~0x30C30000;
+	GPIOB->MODER |=  0x10410000;
+
+	init_spi1_slow();
+	sdcard_io_high_speed();
+}
+
+void initLCD() {
     init_lcd_spi();
     tft_select(0);
     tft_reset(0);
