@@ -23,8 +23,10 @@
 // x,y as 0-3
 void setLED_xy(uint8_t x, uint8_t y);
 void setLED(uint8_t x);
+void setAllLEDs();
 void clrLED_xy(uint8_t x, uint8_t y);
 void clrLED(uint8_t x);
+void clrAllLEDs();
 void sendLEDs();
 
 void readKeys();

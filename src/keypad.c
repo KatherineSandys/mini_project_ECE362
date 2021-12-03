@@ -169,6 +169,12 @@ void setLED(uint8_t x) {
 	displaybuffer[x >> 4] |= _BV(x & 0x0F);
 }
 
+void setAllLEDs() {
+    for (int i = 0; i < 16; i++) {
+        setLED(i);
+    }
+}
+
 void clrLED_xy(uint8_t x, uint8_t y) {
 	uint8_t n = x*4+y;
 	if (n > 15) return;
@@ -180,6 +186,12 @@ void clrLED(uint8_t x) {
 	if (x > 15) return;
 	x = ledLUT[x];
 	displaybuffer[x >> 4] &= ~_BV(x & 0x0F);
+}
+
+void clrAllLEDs() {
+    for (int i = 0; i < 16; i++) {
+        clrLED(i);
+    }
 }
 
 void sendLEDs()
@@ -239,6 +251,10 @@ int8_t last_key_presses[16];
 // returns -1 if no keypress
 int8_t get_keypress()
 {
+    //updateKeypad();
+    //nano_wait(50000000);
+    //nano_wait(1000000000);
+
 	//grab key at front
 	int8_t ret_key = last_key_presses[0];
 
