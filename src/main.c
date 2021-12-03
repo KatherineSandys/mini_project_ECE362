@@ -6,7 +6,7 @@
 #include "graphics.h"
 #include "images/pj.h"
 #include "images/colorpallete.h"
-
+#include "game.h"
 int main(void)
 {
     nano_wait(1000000);
@@ -14,29 +14,32 @@ int main(void)
     nano_wait(1000000);
     initLCD();
     nano_wait(1000000);
+    LCD_Clear(0xFFFF);
+    //int f = get_keypress();
+    //drawimg_4bit(pj_map);
 
-    drawimg_4bit(pj_map);
+    //int x, y;
+    //x = 0;
+    //y = 0;
+    game();
 
-    int x, y;
-    x = 0;
-    y = 0;
-
-    for(;;)
-    {
-        int8_t k = get_keypress();
-        if (k != -1) setLED(k);
-
-        LCD_DrawPoint(x, y, ((2<<16) - 1)*(x*y)/(320*240));
-        x = x + 1;
-        if (x > 240)
-        {
-            y = y + 1;
-            x = 0;
-            if (y == 320)
-                y = 0;
-        }
+//
+//    for(;;)
+//    {
+//        int8_t k = get_keypress();
+//        if (k != -1) setLED(k);
+//
+//        LCD_DrawPoint(x, y, ((2<<16) - 1)*(x*y)/(320*240));
+//        x = x + 1;
+//        if (x > 240)
+//        {
+//            y = y + 1;
+//            x = 0;
+//            if (y == 320)
+//                y = 0;
+//        }
 
         //nano_wait(1000000);
 
-    }
+   // }
 }

@@ -14,5 +14,4 @@ typedef struct Node {
     struct Node * next;
 } node;
 
-
 #endif
