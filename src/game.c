@@ -19,26 +19,58 @@ node * add_node() {
     return n;
 }
 
+void draw_rectangle_grid() {
+    int square_side = 180 / 2;
+    int inner = square_side / 2;
+    LCD_DrawRectangle(320/2 - square_side, 240/2 - square_side, 320/2 + square_side, 240/2 + square_side, RED);
+    for(int i = 0; i < 4; i++) {
+        for(int j = 0; j < 4; j++) {
+            LCD_DrawRectangle(320/2 - square_side + i * inner, 240/2 - square_side + j * inner, 320/2 - square_side + (i + 1) * inner, 240/2 - square_side + (j + 1) * inner, RED);
+        }
+    }
+}
+
+void light_grid_rectangle(int id) {
+    int square_side = 180 / 2;
+    int inner = square_side / 2;
+    int x = id / 4;
+    int y = id % 4;
+
+    LCD_DrawFillRectangle(320/2 - square_side + x * inner, 240/2 - square_side + (3-y) * inner, 320/2 - square_side + (x + 1) * inner, 240/2 - square_side + (3 - y + 1) * inner, RED);
+}
+
+void clear_grid_rectangle(int id) {
+    int square_side = 180 / 2;
+    int inner = square_side / 2;
+    int x = id / 4;
+    int y = id % 4;
+
+    LCD_DrawFillRectangle(320/2 - square_side + x * inner, 240/2 - square_side + (3-y) * inner, 320/2 - square_side + (x + 1) * inner, 240/2 - square_side + (3 - y + 1) * inner, WHITE);
+    LCD_DrawRectangle(320/2 - square_side + x * inner, 240/2 - square_side + (3-y) * inner, 320/2 - square_side + (x + 1) * inner, 240/2 - square_side + (3 - y + 1) * inner, RED);
+
+}
+
+void display_id(int id) {
+    int delay = hard ? 100 : 400;
+    light_grid_rectangle(id);
+    setLED(id);
+    wait_ms(delay);
+    clrLED(id);
+    clear_grid_rectangle(id);
+    wait_ms(delay);
+}
+
 void display_sequence() {
+    draw_rectangle_grid();
     node * l = head;
-    int delay = hard ? 200 : 400;
     while(l->next != NULL) {
-        setLED(l->id);
-        wait_ms(delay);
-        clrLED(l->id);
-        wait_ms(delay);
+        display_id(l->id);
         l = l->next;
     }
     l->next = add_node();
-    setLED(l->id);
-    wait_ms(delay);
-    clrLED(l->id);
-    wait_ms(delay);
+    display_id(l->id);
     l = l->next;
-    setLED(l->id);
-    wait_ms(delay);
-    clrLED(l->id);
-    wait_ms(delay / 2);
+    display_id(l->id);
     //empty buffer in case of accidental clicks during display
     while(get_keypress() != -1){
         wait_ms(15);
@@ -61,7 +93,7 @@ bool read_sequence() {
 
         for(int button = get_keypress(); button != -1; button = get_keypress()) {
             setLED(button);
-            nano_wait(150000000);
+            wait_ms(150);
             clrLED(button);
             if (button != l->id) {
                 free_list();
@@ -158,6 +190,8 @@ void game() {
     LCD_DrawRectangle(10, 10, 320-10, 240-10, BLACK);
     LCD_DrawString(60, 240/2, BLACK, WHITE, "Press any button to start", 16, 0);
 
+    max_time_ms = hard ? max_time_ms / 2 : max_time_ms;
+
     while(get_keypress() == -1){
         wait_ms(15);
     }
@@ -173,12 +207,14 @@ void game() {
 
     while(active) {
     	LCD_Clear(WHITE);
-    	LCD_DrawRectangle(50, 50, 320-50, 240-50, RED);
-    	LCD_DrawString(100, 240/2, BLACK, WHITE, "....REMEMBER....", 16, 0);
-        //display score
+    	LCD_DrawString(100, 5, BLACK, WHITE, "....REMEMBER....", 16, 0);
+    	//display score
     	display_score_corner();
 
         display_sequence();
+
+        LCD_Clear(WHITE);
+        LCD_DrawString(320/2 - 10, 240/2, BLACK, WHITE, "Go!", 16, 0);
         swap_mode();
 
         //reset timer
