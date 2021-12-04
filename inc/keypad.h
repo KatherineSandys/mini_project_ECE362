@@ -29,6 +29,7 @@ void clrLED(uint8_t x);
 void clrAllLEDs();
 void sendLEDs();
 
+void wait_ms(unsigned int ms);
 void readKeys();
 uint8_t isKeyPressed(uint8_t k);
 uint8_t wasKeyPressed(uint8_t k);
