@@ -14,6 +14,11 @@ void nano_wait(unsigned int n) {
             "        bgt repeat\n" : : "r"(n) : "r0", "cc");
 }
 
+void wait_ms(unsigned int ms) {
+	unsigned int n = ms * 1000000;
+	nano_wait(n);
+}
+
 void init_i2c(void) {
 	RCC->AHBENR |= RCC_AHBENR_GPIOBEN;
 
@@ -252,7 +257,7 @@ int8_t last_key_presses[16];
 int8_t get_keypress()
 {
     //updateKeypad();
-    //nano_wait(50000000);
+    nano_wait(1000000);
     //nano_wait(1000000000);
 
 	//grab key at front
@@ -307,7 +312,7 @@ void update_keypress_buffer()
 		if (justPressed(i) != 0)
 		{
 			add_press_to_buffer(i);
-			EXTI->SWIER |= EXTI_SWIER_SWIER0;
+			//EXTI->SWIER |= EXTI_SWIER_SWIER0;
 		}
 	}
 }
