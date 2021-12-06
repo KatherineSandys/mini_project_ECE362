@@ -1,6 +1,7 @@
 #include "stm32f0xx.h"
 #include <stdint.h>
 #include "lcd.h"
+#include "graphics.h"
 
 void drawimg_2bit(const char* map)
 {
@@ -75,4 +76,49 @@ void drawimg_4bit(const char* map)
 		}
 	}
 
+}
+
+void draw_graphic_string(int x, int y, char* str, struct font * f)
+{
+	int x_initial = x;
+
+	while (*str != '\0')
+	{
+		if (*str == '\n')
+		{
+			x = x_initial;
+			y += 30;//f->character_desc_ptr[0].box_h;
+		}
+		else if (*str == ' ')
+		{
+			x += 15;
+		}
+		else
+		{
+			draw_graphic_font(x, y, *str, f);
+			x+= f->character_desc_ptr[*str - '!' + 2].box_w + 2;
+		}
+
+		str++;
+	}
+}
+
+void draw_graphic_font(int x, int y, char c, struct font * f)
+{
+	struct font_descriptor c_desc = f->character_desc_ptr[c - '!' + 2];
+	for (int xc = 0; xc < c_desc.box_w; xc++)
+	{
+		for (int yc = 0; yc < c_desc.box_h; yc++)
+		{
+			int offset =  (xc+yc*c_desc.box_w);
+			char color = f->character_bitmap_ptr[c_desc.bitmap_index + offset/2];
+			char color_masked = ((color >> (((offset % 2) == 0) * 4)) & 0xF);
+
+			char c5 = ((2<<5)-1) - (color_masked*(2<<5))/(2<<4);
+			char c6 = ((2<<6)-1) - (color_masked*(2<<6))/(2<<4);
+			uint16_t fullcolor = ((uint16_t)c5 << 11) | ((uint16_t)c6 << 5) | ((uint16_t)c5 << 0);
+
+			LCD_DrawPoint(x+xc, y+yc, fullcolor);
+		}
+	}
 }

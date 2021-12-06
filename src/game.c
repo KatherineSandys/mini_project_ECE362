@@ -2,6 +2,8 @@
 #include "lcd.h"
 #include <string.h>
 #include "keypad.h"
+#include "graphics.h"
+#include "images/font_arcade.h"
 
 node * head = NULL;
 int max_time_ms = 4*1000;
@@ -188,7 +190,8 @@ void game() {
 
     LCD_Clear(WHITE);
     LCD_DrawRectangle(10, 10, 320-10, 240-10, BLACK);
-    LCD_DrawString(60, 240/2, BLACK, WHITE, "Press any button to start", 16, 0);
+    //LCD_DrawString(60, 240/2, BLACK, WHITE, "Press any button to start", 16, 0);
+    draw_graphic_string(10, 240/2, "Press any\nbutton to\nstart", &font_arcade);
 
     max_time_ms = hard ? max_time_ms / 2 : max_time_ms;
 

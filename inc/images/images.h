@@ -5,6 +5,6 @@ struct img_descriptor
 {
 	int width;
 	int height;
-	int data_size;
+	int bits_per_pixel;
 };
 #endif
