@@ -34,7 +34,7 @@ void drawimg_2bit(const char* map)
 				i++;
 				px = 0;
 			}
-			LCD_DrawPoint(y, 320-x, color[c_index]);
+			LCD_DrawPoint(x, y, color[c_index]);
 		}
 	}
 }
@@ -71,7 +71,7 @@ void drawimg_4bit(const char* map)
 				i++;
 				px = 0;
 			}
-			LCD_DrawPoint(y, 320-x, color[c_index]);
+			LCD_DrawPoint(x, y, color[c_index]);
 		}
 	}
 

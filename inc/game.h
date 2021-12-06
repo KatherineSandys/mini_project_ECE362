@@ -14,4 +14,6 @@ typedef struct Node {
     struct Node * next;
 } node;
 
+void game();
+
 #endif

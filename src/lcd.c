@@ -379,6 +379,7 @@ void spi1_high_speed()
 
 void init_lcd_spi()
 {
+	RCC->AHBENR |= RCC_AHBENR_GPIOBEN;
 	GPIOB->MODER &= ~0x30C30000;
 	GPIOB->MODER |=  0x10410000;
 

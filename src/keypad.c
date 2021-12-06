@@ -15,8 +15,8 @@ void nano_wait(unsigned int n) {
 }
 
 void wait_ms(unsigned int ms) {
-	unsigned int n = ms * 1000000;
-	nano_wait(n);
+	for (int i = 0; i < 100; i++)
+		nano_wait(ms*10000);
 }
 
 void init_i2c(void) {
