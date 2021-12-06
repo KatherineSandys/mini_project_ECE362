@@ -12,7 +12,7 @@ struct font_descriptor {
 
 struct font {
 	struct font_descriptor * character_desc_ptr;
-	const char * character_bitmap_ptr;
+	char * character_bitmap_ptr;
 };
 
 #endif

@@ -19,7 +19,7 @@ int main(void)
     wait_ms(1);
     LCD_Clear(WHITE);
 
-    //drawimg_4bit(pj_map);
+    //drawimg_4bit(0, 0, pj_map);
 
     game();
 

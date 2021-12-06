@@ -3,7 +3,7 @@
 #include "lcd.h"
 #include "graphics.h"
 
-void drawimg_2bit(const char* map)
+void drawimg_2bit(int xi, int yi, const char* map)
 {
 	int i = 0;
 	char r[4];
@@ -35,12 +35,12 @@ void drawimg_2bit(const char* map)
 				i++;
 				px = 0;
 			}
-			LCD_DrawPoint(x, y, color[c_index]);
+			LCD_DrawPoint(xi+x, yi+y, color[c_index]);
 		}
 	}
 }
 
-void drawimg_4bit(const char* map)
+void drawimg_4bit(int xi, int yi, const char* map)
 {
 	int i = 0;
 	char r[16];
@@ -72,7 +72,7 @@ void drawimg_4bit(const char* map)
 				i++;
 				px = 0;
 			}
-			LCD_DrawPoint(x, y, color[c_index]);
+			LCD_DrawPoint(xi+x, yi+y, color[c_index]);
 		}
 	}
 

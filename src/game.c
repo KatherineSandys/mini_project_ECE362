@@ -192,6 +192,8 @@ void game() {
     LCD_Clear(WHITE);
     LCD_DrawRectangle(10, 10, 320-10, 240-10, BLACK);
     //LCD_DrawString(60, 240/2, BLACK, WHITE, "Press any button to start", 16, 0);
+
+    //LCD_DrawFillRectangle(40, 60, 320-40, 240-60, WHITE);
     draw_graphic_string(320/2, 240/2, "Press any\nbutton to\nstart", &font_arcade);
 
     max_time_ms = hard ? max_time_ms / 2 : max_time_ms;
