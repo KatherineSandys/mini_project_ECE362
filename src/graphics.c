@@ -78,16 +78,51 @@ void drawimg_4bit(const char* map)
 
 }
 
+#define H_FONT_SPACING 2 //relative
+#define V_FONT_SPACING 30 //total
+
+int get_line_width(char* str, struct font* f)
+{
+	int w = 0;
+	while ((*str != '\0') && (*str != '\n'))
+	{
+		w += f->character_desc_ptr[*str - '!' + 2].box_w + H_FONT_SPACING;
+		str++;
+	}
+	return w;
+}
+
+int get_lines(char* str)
+{
+	int l = 1;
+	while (*str != 0)
+	{
+		if (*str == '\n') l++;
+		str++;
+	}
+	return l;
+}
+
 void draw_graphic_string(int x, int y, char* str, struct font * f)
 {
+	y -= V_FONT_SPACING * get_lines(str)/2;
+
+	int need_line_width = 1;
+
 	int x_initial = x;
 
 	while (*str != '\0')
 	{
+		if (need_line_width)
+		{
+			x = x_initial - get_line_width(str, f)/2;
+			need_line_width = 0;
+		}
+
 		if (*str == '\n')
 		{
-			x = x_initial;
-			y += 30;//f->character_desc_ptr[0].box_h;
+			y += V_FONT_SPACING;//f->character_desc_ptr[0].box_h;
+			need_line_width = 1;
 		}
 		else if (*str == ' ')
 		{
@@ -96,9 +131,8 @@ void draw_graphic_string(int x, int y, char* str, struct font * f)
 		else
 		{
 			draw_graphic_font(x, y, *str, f);
-			x+= f->character_desc_ptr[*str - '!' + 2].box_w + 2;
+			x+= f->character_desc_ptr[*str - '!' + 2].box_w + H_FONT_SPACING;
 		}
-
 		str++;
 	}
 }

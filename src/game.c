@@ -153,12 +153,13 @@ void game_over() {
     setAllLEDs();
     LCD_Clear(WHITE);
     LCD_DrawRectangle(50, 50, 320-50, 240-50, RED);
-    LCD_DrawString(120, 240/2 - 16, BLACK, WHITE, "Game Over", 16, 0);
+    //LCD_DrawString(120, 240/2 - 16, BLACK, WHITE, "Game Over", 16, 0);
+    draw_graphic_string(320/2, 240/2, "Game\nOver", &font_arcade);
     char temp[5];
     char score_arr[15] = {'S', 'c', 'o', 'r', 'e', ':', ' '};
     itoa(score, temp, 10);
     strcat(score_arr, temp);
-    LCD_DrawString(120, 240/2, BLACK, WHITE, score_arr, 16, 0);
+    LCD_DrawString(120, 150, BLACK, WHITE, score_arr, 16, 0);
 }
 
 void display_score_corner() {
@@ -191,7 +192,7 @@ void game() {
     LCD_Clear(WHITE);
     LCD_DrawRectangle(10, 10, 320-10, 240-10, BLACK);
     //LCD_DrawString(60, 240/2, BLACK, WHITE, "Press any button to start", 16, 0);
-    draw_graphic_string(10, 240/2, "Press any\nbutton to\nstart", &font_arcade);
+    draw_graphic_string(320/2, 240/2, "Press any\nbutton to\nstart", &font_arcade);
 
     max_time_ms = hard ? max_time_ms / 2 : max_time_ms;
 
