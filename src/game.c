@@ -244,12 +244,12 @@ void game() {
         swap_mode();
 
         //reset timer
-        curr_counter = 0;
         LCD_Clear(WHITE);
         LCD_DrawRectangle(0, 200, 320, 240, BLACK);
         //display score
         display_score_corner();
 
+        curr_counter = 0;
         TIM3->CR1 |= TIM_CR1_CEN;
         active = read_sequence();
         score += active ? 1 : 0;
