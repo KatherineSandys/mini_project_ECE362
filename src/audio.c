@@ -121,26 +121,25 @@ void init_audio(wav_header* head)
 
   //clear out buffer first:
   memset(buffer, 4000, 2*BUFFER_SIZE);
-  /*buffer[0] = 1000;
-  buffer[1] = 2<<16 - 1;
-  buffer[2] = 90;*/
 
   DMA1_Channel3->CCR |= DMA_CCR_EN;
   DAC->CR |= DAC_CR_EN1;
   TIM7->CR1 |= TIM_CR1_CEN;
 }
 
-int load = 0;
-
 void DMA1_CH2_3_DMA2_CH1_2_IRQHandler()
 {
 #define HALF_BUFFER_BYTES BUFFER_SIZE*sizeof(*buffer)/2
-	load = 1;
+
 	if (DMA1->ISR & DMA_ISR_HTIF3)
 	{
 		DMA1->IFCR |= DMA_IFCR_CHTIF3;
 
-		reloadlower:
+		//ensure we haven't hit the end of the audio
+		if (f_size(&f)-f_tell(&f) < HALF_BUFFER_BYTES)
+		{
+			f_lseek(&f, sizeof(header));
+		}
 
 		//load the lower half of buffer
 		f_read(&f, (uint8_t*)buffer, HALF_BUFFER_BYTES, (uint32_t*)&read);
@@ -148,32 +147,24 @@ void DMA1_CH2_3_DMA2_CH1_2_IRQHandler()
 		{
 			*((uint16_t*)buffer + i) += 0x8000;
 		}
-
-		//ensure we haven't hit the end of the audio
-		if (f_eof(&f))
-		{
-			f_lseek(&f, sizeof(header));
-			goto reloadlower;
-		}
 	}
 	if (DMA1->ISR & DMA_ISR_TCIF3)
 	{
 		DMA1->IFCR |= DMA_IFCR_CTCIF3;
 
-		reloadupper:
-
 		//load upper half
+
+		//ensure we haven't hit the end of the audio
+		if (f_size(&f)-f_tell(&f) < HALF_BUFFER_BYTES)
+		{
+			f_lseek(&f, sizeof(header));
+		}
+
 		f_read(&f, (uint8_t*)buffer+HALF_BUFFER_BYTES, HALF_BUFFER_BYTES, (uint32_t*)&read);
+
 		for (int i = BUFFER_SIZE; i < BUFFER_SIZE*2; i++)
 		{
 			*((uint16_t*)buffer + i) += 0x8000;
-		}
-
-		//ensure we haven't hit the end of the audio
-		if (f_eof(&f))
-		{
-			f_lseek(&f, sizeof(header));
-			goto reloadupper;
 		}
 	}
 
