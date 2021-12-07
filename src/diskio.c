@@ -35,7 +35,7 @@ void init_spi2_slow()
 	SPI2->CR1 |=  SPI_CR1_SSI;
 
 	SPI2->CR2 &= ~SPI_CR2_DS;
-	SPI2->CR2 |=  SPI_CR2_DS_0 | SPI_CR2_DS_1 | SPI_CR2_DS_2 | SPI_CR2_FRXTH;
+	SPI2->CR2 |=  (SPI_CR2_DS_0 | SPI_CR2_DS_1 | SPI_CR2_DS_2 | SPI_CR2_FRXTH);
 
 	SPI2->CR1 |=  SPI_CR1_SPE;
 }
@@ -66,7 +66,6 @@ void init_sdcard_io()
 
 	disable_sdcard();
 }
-
 // Make sure the receive FIFO of the SPI interface is clear.
 void spi_clear_rxfifo(SPI_TypeDef *s)
 {
@@ -375,4 +374,3 @@ DRESULT disk_ioctl (
 	}
 	return res;
 }
-

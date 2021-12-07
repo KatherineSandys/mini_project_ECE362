@@ -3780,7 +3780,7 @@ FRESULT f_open (
 				{
 					/* Set directory entry initial state */
 					cl = ld_clust(fs, dj.dir);			/* Get current cluster chain */
-					st_dword(dj.dir + DIR_CrtTime, GET_FATTIME());	/* Set created time */
+					st_dword(dj.dir + DIR_CrtTime, 0/*GET_FATTIME()*/);	/* Set created time */
 					dj.dir[DIR_Attr] = AM_ARC;			/* Reset attribute */
 					st_clust(fs, dj.dir, 0);			/* Reset file allocation info */
 					st_dword(dj.dir + DIR_FileSize, 0);
