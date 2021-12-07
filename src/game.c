@@ -4,14 +4,16 @@
 #include "keypad.h"
 #include "graphics.h"
 #include "images/font_arcade.h"
+#include "touch.h"
 
 node * head = NULL;
-int max_time_ms = 4*1000;
+int max_time_ms;
+int score;
+
 int curr_counter = -1;
 bool active = false;
 int curr_width = 240;
 float rate = 0;
-int score = 0;
 bool hard = false;
 
 node * add_node() {
@@ -158,14 +160,23 @@ void TIM3_IRQHandler() {
 void game_over() {
     setAllLEDs();
     LCD_Clear(WHITE);
-    LCD_DrawRectangle(50, 50, 320-50, 240-50, RED);
+    LCD_DrawRectangle(10, 10, 320-10, 240-10, RED);
     //LCD_DrawString(120, 240/2 - 16, BLACK, WHITE, "Game Over", 16, 0);
-    draw_graphic_string(320/2, 240/2, "Game\nOver", &font_arcade);
+    draw_graphic_string(320/2, 240/2-50, "Game\nOver", &font_arcade);
     char temp[5];
     char score_arr[15] = {'S', 'c', 'o', 'r', 'e', ':', ' '};
     itoa(score, temp, 10);
     strcat(score_arr, temp);
-    LCD_DrawString(120, 150, BLACK, WHITE, score_arr, 16, 0);
+    LCD_DrawString(120, 100, BLACK, WHITE, score_arr, 16, 0);
+    LCD_DrawRectangle(320/2-50, 240/2 + 20, 320/2+50, 240/2 + 60, RED);
+    LCD_DrawString(320/20+110, 240/2+30, BLACK, WHITE, "Try Again", 16, 0);
+    for(Point * p = get_touch(); (p->x > 320/2+50) || (p->x < 320/2-50) || (p->y % 240 > 240/2 + 60) || (p->y % 240 < 240/2 + 20); p = get_touch()) {
+        //if(((p->x < 320/2+50) && (p->x > 320/2-50)) && (p->y < 240/2 + 60) && (p->y > 240/2 + 20)){
+        LCD_DrawFillRectangle(p->x-5, p->y-5, p->x+5, p->y+5, RED);
+        //}
+        wait_ms(20);
+    }
+    clrAllLEDs();
 }
 
 void display_score_corner() {
@@ -184,6 +195,7 @@ void game() {
             TIM2->PSC = 480-1;
             TIM2->ARR = 1000-1;
             TIM2->DIER |= TIM_DIER_UIE;
+            TIM2->CR1 |= TIM_CR1_CEN;
     }
     if (!(RCC->APB1ENR & RCC_APB1ENR_TIM3EN)) {
            RCC->APB1ENR |= RCC_APB1ENR_TIM3EN;
@@ -191,7 +203,9 @@ void game() {
            TIM3->ARR = 5000-1;
            TIM3->DIER |= TIM_DIER_UIE;
    }
-
+    //reset in case subsequent game
+    max_time_ms = 4*1000;
+    score = 0;
     NVIC_EnableIRQ(TIM2_IRQn);
     NVIC_EnableIRQ(TIM3_IRQn); /* (1) */
 
@@ -236,19 +250,14 @@ void game() {
         //display score
         display_score_corner();
 
-        TIM2->CR1 |= TIM_CR1_CEN;
         TIM3->CR1 |= TIM_CR1_CEN;
-
         active = read_sequence();
         score += active ? 1 : 0;
         max_time_ms += hard ? 500 : 1000;
 
         //turn off timer
         TIM3->CR1 &= ~TIM_CR1_CEN;
-        TIM2->CR1 &= ~TIM_CR1_CEN;
 
         swap_mode();
     }
-
-    game_over();
 }

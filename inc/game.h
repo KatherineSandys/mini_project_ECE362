@@ -15,5 +15,6 @@ typedef struct Node {
 } node;
 
 void game();
+void game_over();
 
 #endif

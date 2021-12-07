@@ -20,11 +20,11 @@ int main(void)
     LCD_Clear(WHITE);
 
     //drawimg_4bit(0, 0, pj_map);
-
-    game();
+    init_touch();
 
     for (;;)
     {
-
+        game();
+        game_over();
     }
 }

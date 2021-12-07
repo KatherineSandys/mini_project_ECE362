@@ -110,7 +110,7 @@ void init_touch()
 struct point current_touch;
 struct point last_touch;
 
-struct point* get_touch()
+Point* get_touch()
 {
 	last_touch = current_touch;
 
@@ -134,8 +134,8 @@ struct point* get_touch()
 	wait_ms(1);
 	uint16_t y = get_analog(X_PLUS);
 
-	current_touch.x = (x * (int)(320*SLOPE_X_1)) / ((2 << 10) -1) + (int)INTERCEPT_X_1;
-	current_touch.y = 240+((y * (int)(240*SLOPE_Y_1)) / ((2 << 10) -1) + (int)INTERCEPT_Y_1);
+	current_touch.x = ((x * (int)(320*SLOPE_X_1)) / ((2 << 10) -1) + (int)INTERCEPT_X_1);
+	current_touch.y = (240+((y * (int)(240*SLOPE_Y_1)) / ((2 << 10) -1) + (int)INTERCEPT_Y_1));
 
 	set_to_input(X_PLUS);
 	set_to_input(X_MINUS);
