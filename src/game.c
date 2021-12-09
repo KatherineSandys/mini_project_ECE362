@@ -152,7 +152,7 @@ void TIM3_IRQHandler() {
     //must go from 0 to 240 in max_time_ms cycles (this is a 1KHz timer)
     int pixel = (320 * curr_counter) / max_time_ms;
 
-    LCD_DrawFillRectangle(pixel-1, 200+1, pixel, 240-1, RED);
+    LCD_DrawFillRectangle(pixel-5, 200+1, pixel, 240-1, RED);
 
     //curr_counter += 10;
 }
@@ -176,18 +176,11 @@ void game_over() {
 #define RESTART_RECT_X0		  (RESTART_RECT_CENTER_X - RESTART_RECT_WIDTH/2)
 #define RESTART_RECT_Y0		  (RESTART_RECT_CENTER_Y - RESTART_RECT_HEIGHT/2)
 #define RESTART_RECT_X1		  (RESTART_RECT_CENTER_X + RESTART_RECT_WIDTH/2)
-#define RESTART_RECT_Y1		  (RESTART_RECT_CENTER_Y - RESTART_RECT_HEIGHT/2)
-#define RESTART_RECT_X2		  (RESTART_RECT_CENTER_X - RESTART_RECT_WIDTH/2)
-#define RESTART_RECT_Y2		  (RESTART_RECT_CENTER_Y + RESTART_RECT_HEIGHT/2)
-#define RESTART_RECT_X3		  (RESTART_RECT_CENTER_X + RESTART_RECT_WIDTH/2)
-#define RESTART_RECT_Y3		  (RESTART_RECT_CENTER_Y + RESTART_RECT_HEIGHT/2)
+#define RESTART_RECT_Y1		  (RESTART_RECT_CENTER_Y + RESTART_RECT_HEIGHT/2)
 
-    LCD_DrawRectangle(RESTART_RECT_X0, RESTART_RECT_Y0, RESTART_RECT_X3, RESTART_RECT_Y3, RED);
+    LCD_DrawRectangle(RESTART_RECT_X0, RESTART_RECT_Y0, RESTART_RECT_X1, RESTART_RECT_Y1, RED);
     LCD_DrawString(320/20+110, 240/2+30, BLACK, WHITE, "Try Again", 16, 0);
-    for(Point * p = get_touch(); (p->x > RESTART_RECT_X1) || (p->x < RESTART_RECT_X0) || (p->y % 240 > RESTART_RECT_Y2) || (p->y % 240 < RESTART_RECT_Y0); p = get_touch()) {
-        //if(((p->x < 320/2+50) && (p->x > 320/2-50)) && (p->y < 240/2 + 60) && (p->y > 240/2 + 20)){
-        //LCD_DrawFillRectangle(p->x-5, (p->y)%240-5, p->x+5, (p->y)%240 + 5, RED);
-        //}
+    for(Point * p = get_touch(); (p->x > RESTART_RECT_X1) || (p->x < RESTART_RECT_X0) || (p->y % 240 > RESTART_RECT_Y1) || (p->y % 240 < RESTART_RECT_Y0); p = get_touch()) {
         wait_ms(20);
     }
     clrAllLEDs();
@@ -218,23 +211,56 @@ void game() {
            TIM3->DIER |= TIM_DIER_UIE;
    }
     //reset in case subsequent game
-    max_time_ms = 4*1000;
     score = 0;
     NVIC_EnableIRQ(TIM2_IRQn);
     NVIC_EnableIRQ(TIM3_IRQn); /* (1) */
 
     LCD_Clear(WHITE);
     LCD_DrawRectangle(10, 10, 320-10, 240-10, BLACK);
-    //LCD_DrawString(60, 240/2, BLACK, WHITE, "Press any button to start", 16, 0);
+    draw_graphic_string(320/2 - 5, 240/2 - 30, "Press any\nkey to start", &font_arcade);
 
-    //LCD_DrawFillRectangle(40, 60, 320-40, 240-60, WHITE);
-    draw_graphic_string(320/2, 240/2, "Press any\nbutton to\nstart", &font_arcade);
+#define EASY_RECT_CENTER_X (90)
+#define EASY_RECT_CENTER_Y (160)
+#define EASY_RECT_WIDTH    110
+#define EASY_RECT_HEIGHT   40
+#define EASY_RECT_OUTLINE  5
+#define EASY_RECT_X0       (EASY_RECT_CENTER_X - EASY_RECT_WIDTH/2)
+#define EASY_RECT_Y0       (EASY_RECT_CENTER_Y - EASY_RECT_HEIGHT/2)
+#define EASY_RECT_X1       (EASY_RECT_CENTER_X + EASY_RECT_WIDTH/2)
+#define EASY_RECT_Y1       (EASY_RECT_CENTER_Y + EASY_RECT_HEIGHT/2)
 
-    max_time_ms = hard ? max_time_ms / 2 : max_time_ms;
+
+#define HARD_RECT_CENTER_X (230)
+#define HARD_RECT_CENTER_Y (160)
+#define HARD_RECT_WIDTH    110
+#define HARD_RECT_HEIGHT   40
+#define HARD_RECT_OUTLINE  5
+#define HARD_RECT_X0       (HARD_RECT_CENTER_X - HARD_RECT_WIDTH/2)
+#define HARD_RECT_Y0       (HARD_RECT_CENTER_Y - HARD_RECT_HEIGHT/2)
+#define HARD_RECT_X1       (HARD_RECT_CENTER_X + HARD_RECT_WIDTH/2)
+#define HARD_RECT_Y1       (HARD_RECT_CENTER_Y + HARD_RECT_HEIGHT/2)
+
+    LCD_DrawOutlineRectangle(EASY_RECT_X0, EASY_RECT_Y0, EASY_RECT_X1, EASY_RECT_Y1,EASY_RECT_OUTLINE, hard ? RED : GREEN);
+    draw_graphic_string(EASY_RECT_CENTER_X + 2, 165, "Easy", &font_arcade);
+    LCD_DrawOutlineRectangle(HARD_RECT_X0, HARD_RECT_Y0, HARD_RECT_X1, HARD_RECT_Y1,HARD_RECT_OUTLINE, hard ? GREEN : RED);
+    draw_graphic_string(HARD_RECT_CENTER_X + 2, 165, "HARD", &font_arcade);
 
     while(get_keypress() == -1){
+        Point * p = get_touch();
+        if((p->x <= EASY_RECT_X1) && (p->x >= EASY_RECT_X0) && (p->y % 240 <= EASY_RECT_Y1) && (p->y % 240 >= EASY_RECT_Y0)) {
+            LCD_DrawOutlineRectangle(EASY_RECT_X0, EASY_RECT_Y0, EASY_RECT_X1, EASY_RECT_Y1,EASY_RECT_OUTLINE, GREEN);
+            LCD_DrawOutlineRectangle(HARD_RECT_X0, HARD_RECT_Y0, HARD_RECT_X1, HARD_RECT_Y1,HARD_RECT_OUTLINE, RED);
+            hard = false;
+        }
+        if((p->x <= HARD_RECT_X1) && (p->x >= HARD_RECT_X0) && (p->y % 240 <= HARD_RECT_Y1) && (p->y % 240 >= HARD_RECT_Y0)) {
+            LCD_DrawOutlineRectangle(EASY_RECT_X0, EASY_RECT_Y0, EASY_RECT_X1, EASY_RECT_Y1,EASY_RECT_OUTLINE, RED);
+            LCD_DrawOutlineRectangle(HARD_RECT_X0, HARD_RECT_Y0, HARD_RECT_X1, HARD_RECT_Y1,HARD_RECT_OUTLINE, GREEN);
+            hard = true;
+        }
         wait_ms(15);
     }
+
+    max_time_ms = hard ? 2*1000 : 4*1000;
     swap_mode();
 
     srandom(TIM2->CNT);
@@ -254,7 +280,8 @@ void game() {
         display_sequence();
 
         LCD_Clear(WHITE);
-        LCD_DrawString(320/2 - 10, 240/2, BLACK, WHITE, "Go!", 16, 0);
+        //LCD_DrawString(320/2 - 10, 240/2, BLACK, WHITE, "Go!", 16, 0);
+        draw_graphic_string(320/2, 240/2, "Go!", &font_arcade);
         swap_mode();
 
         //reset timer
@@ -263,8 +290,8 @@ void game() {
         //display score
         display_score_corner();
 
-        curr_counter = 0;
         TIM3->CR1 |= TIM_CR1_CEN;
+        curr_counter = 0;
         active = read_sequence();
         score += active ? 1 : 0;
         max_time_ms += hard ? 500 : 1000;

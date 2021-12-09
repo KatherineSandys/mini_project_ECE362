@@ -541,6 +541,18 @@ void LCD_DrawFillRectangle(u16 x1, u16 y1, u16 x2, u16 y2, u16 c)
     lcddev.select(0);
 }
 
+//===========================================================================
+// Draw a rectangle of lines of color c from (x1,y1) to (x2,y2) that has an outline w big.
+//===========================================================================
+void LCD_DrawOutlineRectangle(u16 x1, u16 y1, u16 x2, u16 y2, u16 w, u16 c)
+{
+    LCD_DrawFillRectangle(x1, y1, x1+w, y2, c);
+    LCD_DrawFillRectangle(x2-w, y1, x2, y2, c);
+    LCD_DrawFillRectangle(x1, y1, x2, y1+w, c);
+    LCD_DrawFillRectangle(x1, y2-w, x2, y2, c);
+}
+
+
 static void _draw_circle_8(int xc, int yc, int x, int y, u16 c)
 {
     _LCD_DrawPoint(xc + x, yc + y, c);
