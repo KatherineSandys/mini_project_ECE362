@@ -9,17 +9,19 @@
 #include "game.h"
 #include "keypad.h"
 #include "touch.h"
+#include "audio.h"
 
 int main(void)
 {
+    read_song();
     wait_ms(1);
     initKeypad();
+
     wait_ms(1);
     initLCD();
     wait_ms(1);
     LCD_Clear(WHITE);
 
-    //drawimg_4bit(0, 0, pj_map);
     init_touch();
 
     for (;;)

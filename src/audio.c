@@ -5,8 +5,8 @@
 
 FATFS fs;
 
-#define BUFFER_SIZE 4000
-uint32_t buffer[BUFFER_SIZE];
+#define BUFFER_SIZE 16000
+uint8_t buffer[BUFFER_SIZE];
 
 
 
@@ -73,7 +73,7 @@ void read_song()
 
   wait_ms(100);
 
-  fr = f_open(&f, "tetris.wav", FA_READ);
+  fr = f_open(&f, "tetris_m.wav", FA_READ);
 
   fr = f_read(&f, &header, sizeof(header), &read);
 
@@ -100,10 +100,10 @@ void init_audio(wav_header* head)
   DMA1_Channel3->CCR &= ~DMA_CCR_EN;
   DMA1_Channel3->CNDTR = BUFFER_SIZE;
   DMA1_Channel3->CMAR = (uint32_t)&(buffer[0]);
-  //16 bit size peripheral, 32 bit memory size. so we skip the 2nd channel's data
-  DMA1_Channel3->CPAR = (uint32_t)&(DAC->DHR12L1);
+  //8 bit size
+  DMA1_Channel3->CPAR = (uint32_t)&(DAC->DHR8R1);
   DMA1_Channel3->CCR &= ~(DMA_CCR_MSIZE | DMA_CCR_PSIZE);
-  DMA1_Channel3->CCR |=  (DMA_CCR_MSIZE_1 | DMA_CCR_PSIZE_0);
+  //DMA1_Channel3->CCR |=  (DMA_CCR_MSIZE_0 | DMA_CCR_PSIZE_0);
   DMA1_Channel3->CCR |= DMA_CCR_PL;
 
   DMA1_Channel3->CCR |= DMA_CCR_MINC | DMA_CCR_DIR | DMA_CCR_CIRC;
@@ -120,7 +120,7 @@ void init_audio(wav_header* head)
   TIM7->CR2 |= TIM_CR2_MMS_1; //set mms to update mode
 
   //clear out buffer first:
-  memset(buffer, 4000, 2*BUFFER_SIZE);
+  memset(buffer, 0x00, BUFFER_SIZE * sizeof(*buffer));
 
   DMA1_Channel3->CCR |= DMA_CCR_EN;
   DAC->CR |= DAC_CR_EN1;
@@ -143,10 +143,10 @@ void DMA1_CH2_3_DMA2_CH1_2_IRQHandler()
 
 		//load the lower half of buffer
 		f_read(&f, (uint8_t*)buffer, HALF_BUFFER_BYTES, (uint32_t*)&read);
-		for (int i = 0; i < BUFFER_SIZE; i++)
+		/*for (int i = 0; i < BUFFER_SIZE/2; i++)
 		{
-			*((uint16_t*)buffer + i) += 0x8000;
-		}
+			*(buffer + i) += 0x8000;
+		}*/
 	}
 	if (DMA1->ISR & DMA_ISR_TCIF3)
 	{
@@ -161,11 +161,11 @@ void DMA1_CH2_3_DMA2_CH1_2_IRQHandler()
 		}
 
 		f_read(&f, (uint8_t*)buffer+HALF_BUFFER_BYTES, HALF_BUFFER_BYTES, (uint32_t*)&read);
-
-		for (int i = BUFFER_SIZE; i < BUFFER_SIZE*2; i++)
+/*
+		for (int i = BUFFER_SIZE/2; i < BUFFER_SIZE; i++)
 		{
-			*((uint16_t*)buffer + i) += 0x8000;
-		}
+			*(buffer + i) += 0x8000;
+		}*/
 	}
 
 }

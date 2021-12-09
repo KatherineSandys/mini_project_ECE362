@@ -168,11 +168,25 @@ void game_over() {
     itoa(score, temp, 10);
     strcat(score_arr, temp);
     LCD_DrawString(120, 100, BLACK, WHITE, score_arr, 16, 0);
-    LCD_DrawRectangle(320/2-50, 240/2 + 20, 320/2+50, 240/2 + 60, RED);
+
+#define RESTART_RECT_CENTER_X (320/2)
+#define RESTART_RECT_CENTER_Y (240/2+40)
+#define RESTART_RECT_WIDTH    100
+#define RESTART_RECT_HEIGHT   40
+#define RESTART_RECT_X0		  (RESTART_RECT_CENTER_X - RESTART_RECT_WIDTH/2)
+#define RESTART_RECT_Y0		  (RESTART_RECT_CENTER_Y - RESTART_RECT_HEIGHT/2)
+#define RESTART_RECT_X1		  (RESTART_RECT_CENTER_X + RESTART_RECT_WIDTH/2)
+#define RESTART_RECT_Y1		  (RESTART_RECT_CENTER_Y - RESTART_RECT_HEIGHT/2)
+#define RESTART_RECT_X2		  (RESTART_RECT_CENTER_X - RESTART_RECT_WIDTH/2)
+#define RESTART_RECT_Y2		  (RESTART_RECT_CENTER_Y + RESTART_RECT_HEIGHT/2)
+#define RESTART_RECT_X3		  (RESTART_RECT_CENTER_X + RESTART_RECT_WIDTH/2)
+#define RESTART_RECT_Y3		  (RESTART_RECT_CENTER_Y + RESTART_RECT_HEIGHT/2)
+
+    LCD_DrawRectangle(RESTART_RECT_X0, RESTART_RECT_Y0, RESTART_RECT_X3, RESTART_RECT_Y3, RED);
     LCD_DrawString(320/20+110, 240/2+30, BLACK, WHITE, "Try Again", 16, 0);
-    for(Point * p = get_touch(); (p->x > 320/2+50) || (p->x < 320/2-50) || (p->y % 240 > 240/2 + 60) || (p->y % 240 < 240/2 + 20); p = get_touch()) {
+    for(Point * p = get_touch(); (p->x > RESTART_RECT_X1) || (p->x < RESTART_RECT_X0) || (p->y % 240 > RESTART_RECT_Y2) || (p->y % 240 < RESTART_RECT_Y0); p = get_touch()) {
         //if(((p->x < 320/2+50) && (p->x > 320/2-50)) && (p->y < 240/2 + 60) && (p->y > 240/2 + 20)){
-        LCD_DrawFillRectangle(p->x-5, p->y-5, p->x+5, p->y+5, RED);
+        //LCD_DrawFillRectangle(p->x-5, (p->y)%240-5, p->x+5, (p->y)%240 + 5, RED);
         //}
         wait_ms(20);
     }

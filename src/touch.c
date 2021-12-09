@@ -46,7 +46,7 @@
 #define INTERCEPT_X_1 ((IN_POINT_2_X - CAL_POINT_2_X*SLOPE_X_1) + 0.0f)
 
 //#define INTERCEPT_Y_0 ((IN_POINT_0_Y - CAL_POINT_0_Y*SLOPE_Y_0) - 0.0f)
-#define INTERCEPT_Y_1 ((IN_POINT_3_Y - CAL_POINT_3_Y*SLOPE_Y_1) + 113.0f)
+#define INTERCEPT_Y_1 (40)//((IN_POINT_3_Y - CAL_POINT_3_Y*SLOPE_Y_1) + 30.0f)
 /*/
 /*
 #define SLOPE_X_1 0.6

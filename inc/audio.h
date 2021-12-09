@@ -26,4 +26,6 @@ typedef struct wav_header
   uint32_t Subchunk2Size;
 }wav_header;
 
+void read_song();
+
 #endif
