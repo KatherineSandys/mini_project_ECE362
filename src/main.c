@@ -14,6 +14,11 @@
 int main(void)
 {
     read_song();
+
+    /*for(;;)
+    {
+
+    }*/
     wait_ms(1);
     initKeypad();
 
@@ -23,6 +28,13 @@ int main(void)
     LCD_Clear(WHITE);
 
     init_touch();
+
+    /*for (;;)
+    {
+    	struct point* p = get_touch();
+
+    	LCD_DrawFillRectangle(p->x, p->y, p->x+5, p->y+5, BLACK);
+    }*/
 
     for (;;)
     {

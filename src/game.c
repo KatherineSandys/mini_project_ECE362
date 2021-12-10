@@ -240,20 +240,20 @@ void game() {
 #define HARD_RECT_X1       (HARD_RECT_CENTER_X + HARD_RECT_WIDTH/2)
 #define HARD_RECT_Y1       (HARD_RECT_CENTER_Y + HARD_RECT_HEIGHT/2)
 
-    LCD_DrawOutlineRectangle(EASY_RECT_X0, EASY_RECT_Y0, EASY_RECT_X1, EASY_RECT_Y1,EASY_RECT_OUTLINE, hard ? RED : GREEN);
+    LCD_DrawOutlineRectangle(EASY_RECT_X0, EASY_RECT_Y0, EASY_RECT_X1, EASY_RECT_Y1,EASY_RECT_OUTLINE, hard ? GRAY : GREEN);
     draw_graphic_string(EASY_RECT_CENTER_X + 2, 165, "Easy", &font_arcade);
-    LCD_DrawOutlineRectangle(HARD_RECT_X0, HARD_RECT_Y0, HARD_RECT_X1, HARD_RECT_Y1,HARD_RECT_OUTLINE, hard ? GREEN : RED);
+    LCD_DrawOutlineRectangle(HARD_RECT_X0, HARD_RECT_Y0, HARD_RECT_X1, HARD_RECT_Y1,HARD_RECT_OUTLINE, hard ? GREEN : GRAY);
     draw_graphic_string(HARD_RECT_CENTER_X + 2, 165, "HARD", &font_arcade);
 
     while(get_keypress() == -1){
         Point * p = get_touch();
         if((p->x <= EASY_RECT_X1) && (p->x >= EASY_RECT_X0) && (p->y % 240 <= EASY_RECT_Y1) && (p->y % 240 >= EASY_RECT_Y0)) {
             LCD_DrawOutlineRectangle(EASY_RECT_X0, EASY_RECT_Y0, EASY_RECT_X1, EASY_RECT_Y1,EASY_RECT_OUTLINE, GREEN);
-            LCD_DrawOutlineRectangle(HARD_RECT_X0, HARD_RECT_Y0, HARD_RECT_X1, HARD_RECT_Y1,HARD_RECT_OUTLINE, RED);
+            LCD_DrawOutlineRectangle(HARD_RECT_X0, HARD_RECT_Y0, HARD_RECT_X1, HARD_RECT_Y1,HARD_RECT_OUTLINE, GRAY);
             hard = false;
         }
         if((p->x <= HARD_RECT_X1) && (p->x >= HARD_RECT_X0) && (p->y % 240 <= HARD_RECT_Y1) && (p->y % 240 >= HARD_RECT_Y0)) {
-            LCD_DrawOutlineRectangle(EASY_RECT_X0, EASY_RECT_Y0, EASY_RECT_X1, EASY_RECT_Y1,EASY_RECT_OUTLINE, RED);
+            LCD_DrawOutlineRectangle(EASY_RECT_X0, EASY_RECT_Y0, EASY_RECT_X1, EASY_RECT_Y1,EASY_RECT_OUTLINE, GRAY);
             LCD_DrawOutlineRectangle(HARD_RECT_X0, HARD_RECT_Y0, HARD_RECT_X1, HARD_RECT_Y1,HARD_RECT_OUTLINE, GREEN);
             hard = true;
         }
