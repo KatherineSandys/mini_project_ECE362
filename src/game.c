@@ -214,6 +214,7 @@ void game() {
     score = 0;
     NVIC_EnableIRQ(TIM2_IRQn);
     NVIC_EnableIRQ(TIM3_IRQn); /* (1) */
+    while(get_keypress()!=-1);
 
     LCD_Clear(WHITE);
     LCD_DrawRectangle(10, 10, 320-10, 240-10, BLACK);
